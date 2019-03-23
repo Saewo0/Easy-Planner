@@ -102,6 +102,7 @@ input {
   width: 45%;
   position: fixed;
   overflow-x: hidden;
+
 }
 
 /* Control the left side */
@@ -110,6 +111,7 @@ input {
   border-style: solid none solid solid;
   border-width: 5px;
   background-color: rgb(255, 255, 255);
+  vertical-align: middle;
 }
 
 /* Control the right side */
@@ -135,4 +137,20 @@ input {
   background-color: #E9E9E9;
   padding: 20px;
   border: 1px solid #D5D5D5;
+  border-radius: 10px;
+}
+
+.event-create {
+  color: #fff;
+  border: none;
+  background: #248A52;
+  font-size: 18px;
+  line-height: 1;
+  padding: 6px 10px;
+  border-radius: 10px;
+  outline: none !important;
+  transition: background .2s ease;
+}
+.event-create:hover {
+  background: #1D7745;
 }

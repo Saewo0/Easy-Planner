@@ -5,7 +5,7 @@
 // This example requires the Places library. Include the libraries=places
 // parameter when you first load the API. For example:
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-var map, infoWindow;
+var map, prev_infowindow =false;
 
 function initAutocomplete() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -36,9 +36,9 @@ function initAutocomplete() {
   }
 
   // Create the search box and link it to the UI element.
-  var input = document.getElementById('pac-input');
-  var searchBox = new google.maps.places.SearchBox(input);
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+  var query = document.getElementById('pac-input');
+  var searchBox = new google.maps.places.SearchBox(query);
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(query);
 
   // Bias the SearchBox results towards current map's viewport.
   map.addListener('bounds_changed', function() {
@@ -109,42 +109,82 @@ function createMarker(markers, place) {
   });
 
   google.maps.event.addListener(marker, 'click', function() {
-    infowindow.setContent(place.name+place.geometry.location);
+    if ( prev_infowindow ) {
+      prev_infowindow.close();
+    }
+    prev_infowindow = infowindow;
+    var contentString = '<div id="content">' +
+                          '<h3 id="firstHeading" class="placeName">' + place.name + '</h3>' +
+                          '<div id="bodyContent">' +
+                            '<p>Rating:' + place.rating + '</p>' +
+                            '<p><a href="'+ place.website + '">Official Website</a></p>' +
+                            '<p>PlaceID:' + place.place_id + '</p>' +
+                          '</div>' +
+                        '</div>';
+    infowindow.setContent(contentString);
     infowindow.open(map, this);
   });
+
+  google.maps.event.addListener(marker, 'dblclick', function() {
+    document.getElementById('eventDest').value = place.place_id;
+  });
+
   markers.push(marker);
 }
 
-/*
-var map;
-var service;
+$('.event-create').click(function() {createEvent();});
 
+function createEvent() {
+  
+  var eventName = $('#eventName').val();
+  var eventDest = $('#eventDest').val();
+  var start = $('#startdatetime').val();
+  var end = $('#enddatetime').val();
+  eventName = $('#eventName').val();
 
-function initMap() {
-  var sydney = new google.maps.LatLng(-33.867, 151.195);
+  console.log(eventName);
+  if ($.trim(eventName) == '' || $.trim(eventDest) == '') {
+    return false;
+  }
 
-  infowindow = 
-
-  map = new google.maps.Map(
-      document.getElementById('map'), {center: sydney, zoom: 15});
-
-  var request = {
-    query: 'Museum of Contemporary Art Australia',
-    fields: ['name', 'geometry'],
+  var params = {
+    // This is where any modeled request parameters should be added.
+    // The key is the parameter name, as it is defined in the API in API Gateway.
+    param0: 'Accept:application/json',
+    "Access-Control-Allow-Headers" : "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+    "Access-Control-Allow-Origin" : '*',
+    "Access-Control-Allow-Methods" : "POST"
   };
-
-  service = new google.maps.places.PlacesService(map);
-
-  service.findPlaceFromQuery(request, function(results, status) {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-      for (var i = 0; i < results.length; i++) {
-        createMarker(results[i]);
-      }
-
-      map.setCenter(results[0].geometry.location);
-    }
-  });
+  var additionalParams = {
+    // If there are any unmodeled query parameters or headers that must be
+    //   sent with the request, add them here.
+    headers: {}
+  };
+  var newEvent = {
+    name : eventName,
+    destination : eventDest,
+    start: start,
+    end: end,
+    timestamp : Date.parse(new Date())
+  };
+  var newMessages = [{
+    type : "string",
+    event : newEvent
+  }];
+  var body = {
+    messages : newMessages
+  };
+  //setTimeout(function() {
+  //  fakeMessage();
+  //}, 1000 + (Math.random() * 20) * 100);
+  apigClient.chatbotPost(params, body, additionalParams)
+    .then(function(result){
+      console.log(result);
+      var mes = result.data.messages[0].unstructured.text;
+      console.log(mes);
+      fakeMessage(mes);
+    }).catch( function(result){
+      // Add error callback code here.
+      fakeMessage("Sorry, please try again");
+    });
 }
-
-
-*/

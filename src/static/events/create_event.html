@@ -5,17 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Easy Planner</title>
+    <link rel="stylesheet" href="/src/static/css/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
-    <link rel="stylesheet" href="/src/static/css/style.css">
-    <script src="/src/static/js/app.js"></script>
-    <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
-    <script src="http://momentjs.com/downloads/moment.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
-    <script type="text/javascript"> $(function () {$('#datetimepicker1').datetimepicker();}); </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=IzaSyCZ95JaYcEhXjmRsnU1SS3kc5Rl3PncmYA&libraries=places&callback=initAutocomplete" async defer></script>
+    
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="http://momentjs.com/downloads/moment.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript"> $(function () {
+      $('#startTime, #endTime').datetimepicker({
+        format: 'MM/DD/YYYY HH:mm'
+      });
+    }); </script>
   </head>
 
   <body>
@@ -50,50 +53,52 @@
         <h1>Create Event</h1>
       </div>
       <div class="form">
-        <form method="post">
-          <div class="form-group">
-            <label for="name">Event name</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Name">
-          </div>
-          <div class="form-group">
-            <label for="destination">Destination</label>
-            <input type="text" class="form-control" id="destination" name="destination" placeholder="json {place object}"
-            aria-describedby="DestinationHelp">
-            <span id="DestinationHelp" class="help-block">Choose a destination from the map</span>
-          </div>
-          <div class="form-group">
-              <label for="startdatetime">Start Date & Time</label>
-              <div class='input-group date' id='datetimepicker1'>
-                <input type='text' class="form-control" id="startdatetime" name="startdatetime" placeholder="03/22/2019 1:00 PM">
+        <div class="form-group">
+          <label for="eventName">Event name</label>
+          <input type="text" class="form-control" id="eventName" name="eventName" placeholder="Event Name">
+        </div>
+        <div class="form-group">
+          <label for="eventDest">Destination</label>
+          <input type="text" class="form-control" id="eventDest" name="eventDest" placeholder="Place_id"
+          aria-describedby="DestinationHelp">
+          <span id="DestinationHelp" class="help-block">Double click a place to choose as destination</span>
+        </div>
+        <div class="form-group">
+            <label for="startdatetime">Start Date & Time</label>
+            <div class='input-group date' id='startTime'>
+              <input type='text' class="form-control" id="startdatetime" name="startdatetime" placeholder="03/22/2019 13:00">
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+            </div>
+        </div>
+        <div class="form-group">
+              <label for="enddatetime">End Date & Time</label>
+              <div class='input-group date' id='endTime'>
+                <input type='text' class="form-control" id="enddatetime" name="enddatetime" placeholder="03/22/2019 17:00">
                 <span class="input-group-addon">
                   <span class="glyphicon glyphicon-calendar"></span>
                 </span>
               </div>
           </div>
-          <div class="form-group">
-                <label for="startdatetime">End Date & Time</label>
-                <div class='input-group date' id='datetimepicker2'>
-                  <input type='text' class="form-control" id="enddatetime" name="enddatetime" placeholder="03/22/2019 5:00 PM">
-                  <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                  </span>
-                </div>
-            </div>
-          <div class="form-group">
-            <label for="review">Invite Friends</label>
-            <input type="text" class="form-control" id="friends" name="friends" placeholder="Amy; Tom; Mike"
-                    aria-describedby="InviteFriendsHelp">
-            <span id="InviteFriendsHelp" class="help-block">Choose the friends you want to invite</span>
-          </div>
-          <button type="submit" class="btn btn-default">Create</button>
-        </form>
+        <div class="form-group">
+          <label for="Friends">Invite Friends</label>
+          <input type="text" class="form-control" id="friends" name="friends" placeholder="Amy; Tom; Mike"
+                  aria-describedby="InviteFriendsHelp">
+          <span id="InviteFriendsHelp" class="help-block">Choose the friends you want to invite</span>
+        </div>
+        <button type="submit" class="event-create">Create</button>
       </div>
     </div>
-    
+
     <div class="split right">
       <input id="pac-input" class="controls" type="text" placeholder="Destination">
       <div class="centered" id = "map"></div>
     </div>
 
+    <script type="text/javascript" src="/src/static/js/google-map.js"></script>
+    
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZ95JaYcEhXjmRsnU1SS3kc5Rl3PncmYA&libraries=places&callback=initAutocomplete" async defer></script>
+    
   </body>
 </html>

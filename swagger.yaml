@@ -1,0 +1,129 @@
+swagger: '2.0'
+info:
+  title: Easy Planner Service API
+  description: 'Simple Events Planning application - Easy Planner, helping users to create event and invite friends to join, built during the Cloud and Big Data course at Columbia University.'
+  version: 1.0.0
+schemes:
+  - https
+basePath: /v1
+produces:
+  - application/json
+paths:
+  /events/create:
+    post:
+      summary: The endpoint for Event Creation API.
+      description: |
+        This API takes in one or more events from the client and returns
+        OK or Error as a response. The API will try to store the events into
+        the backend database.
+      tags:
+        - Events
+      operationId: createEvent
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: event
+          description: The event to create.
+          required: true
+          schema:
+            $ref: '#/definitions/Event'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /events/view:
+    get:
+      summary: The endpoint for Event Viewing API.
+      description: |
+        This API takes in a UserId from the client and returns one or more
+        events as a response. The API will try to retrieve the events whose
+        host is the same as the given UserId from the backend database.
+      tags:
+        - Events
+      operationId: viewEvent
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: user
+          description: The UserId whose events to view.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/EventViewResponse'
+        '403':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Event:
+    type: object
+    required:
+      - host
+      - name
+      - destName
+      - destId
+    properties:
+      host:
+        description: 'Host user''s UserId'
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      destName:
+        type: string
+      destId:
+        type: string
+      start:
+        type: string
+        format: datetime
+      end:
+        type: string
+        format: datetime
+      participants:
+        description: 'Participants is a list of UserIds, should include the host him/herself'
+        type: array
+        items:
+          type: string
+  EventViewResponse:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          $ref: '#/definitions/Event'
+  User:
+    type: object
+    properties:
+      host:
+        description: 'Host user''s UserId'
+        type: string
+      id:
+        type: string
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string

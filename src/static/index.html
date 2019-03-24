@@ -8,14 +8,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/style.css">
-    <script src="./js/google-map.js"></script>
     <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script type="text/javascript"> $(function () {$('#datetimepicker1').datetimepicker();}); </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=IzaSyCZ95JaYcEhXjmRsnU1SS3kc5Rl3PncmYA&libraries=places&callback=initAutocomplete" async defer></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>    
   </head>
 
-  <body>
+  <body id="index">
     <nav class="navbar navbar-fixed-top navbar-default">
         <div class="container">
             <div class="navbar-header">
@@ -26,17 +23,17 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/" title="Home">Easy Planner</a>
+                <a class="navbar-brand" href="/src/static/index.html" title="Home"><span class="glyphicon glyphicon-home"></span> Easy Planner</a>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a title="Events">My Events</a></li>
+                    <li><a title="My Events">My Events</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a title="Your Addresses"><span class="glyphicon glyphicon-home"></span> Create Events </a></li>
-                    <li><a title="Your Alerts"><span class="glyphicon glyphicon-user"></span> Alerts </a></li>
-                    <li><a title="Check & Send"><span class="glyphicon glyphicon-search"></span> Pending Invitations </a></li>
-                    <li><a title="Log Out"><span class="glyphicon glyphicon-log-out"></span> Log out </a></li>
+                    <li><a title="Create Events" href="/src/static/events/create_event.html"><span class="glyphicon glyphicon-plus"></span> Create Events </a></li>
+                    <li><a title="Friends"><span class="glyphicon glyphicon-user"></span> Friends </a></li>
+                    <li><a title="Pending Invitations"><span class="glyphicon glyphicon-envelope"></span> Pending Invitations </a></li>
+                    <li><a title="Sign IN"><span class="glyphicon glyphicon-log-in"></span> Sign In </a></li>
                 </ul>
             </div>
         </div>
@@ -46,7 +43,7 @@
       <div class="container">
         <h1>Hello, world!</h1>
         <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+        <p><a class="btn btn-primary btn-lg" href="#"><span class="glyphicon glyphicon-log-in"></span> Sign In </a></p>
       </div>
     </div>
   </body>

@@ -126,7 +126,8 @@ function createMarker(markers, place) {
   });
 
   google.maps.event.addListener(marker, 'dblclick', function() {
-    document.getElementById('eventDest').value = place.place_id;
+    document.getElementById('eventDest').value = place.name;
+    document.getElementById('eventDestID').value = place.place_id;
   });
 
   markers.push(marker);
@@ -160,19 +161,19 @@ function createEvent() {
     //   sent with the request, add them here.
     headers: {}
   };
-  var newEvent = {
+  var Event = {
     name : eventName,
     destination : eventDest,
     start: start,
     end: end,
     timestamp : Date.parse(new Date())
   };
-  var newMessages = [{
+  var Events = [{
     type : "string",
-    event : newEvent
+    event : Event
   }];
   var body = {
-    messages : newMessages
+    events : Events
   };
   //setTimeout(function() {
   //  fakeMessage();
